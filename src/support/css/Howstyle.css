@@ -1,0 +1,53 @@
+.how-main-container{
+    margin-top: 40px;
+    height: 400px;
+    display: flex;
+    justify-content: space-around;
+    font-family: Arial, Helvetica, sans-serif
+}
+.how-content-1 > p{
+    font-size: 30px;
+    color: #95989A;
+    margin-bottom: 0px;
+    font-weight: 700;
+    text-align: center;
+}
+.how-img{
+    margin-top: 20px;
+    height: 380px;
+}
+.how-content-2{
+    color: #535c68;
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+    margin-left: -200px
+}
+.how-content-2 .howto{
+    padding: 10px;
+}
+.how-content-2 .howto .how-title{
+    font-weight: 700
+}
+
+@media screen and (max-width:1000px){
+    .how-main-container{
+        display: block;
+        height: 430px;
+        background-color: #ecf0f1;
+    }
+    .how-img{
+        display: none;
+    }
+    .how-content-2{
+        text-align: center;
+        margin-left: 0;
+        font-size: 15px
+    }
+    .how-content-2 .howto{
+        padding: 25px
+    }
+    .how-content-1 > p{
+        font-size: 25px
+    }
+}

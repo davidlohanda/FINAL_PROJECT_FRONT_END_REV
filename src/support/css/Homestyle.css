@@ -1,0 +1,37 @@
+.home-main-container{
+    height: 500px;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #ecf0f1;
+    width: 500px;
+    margin : 0 auto;
+    margin-top: 30px;
+    border: 1px solid #999999;
+}
+.home-main-container img{
+    margin-top: 100px;
+    height: 200px;
+    width: 200px;
+}
+.log-reg{
+    width: 250px;
+    font-size: 25px;
+    margin: 0 auto;
+    margin-top: 30px;
+}
+.log-reg p{
+    cursor: pointer;
+    font-weight: 700;
+    color: #95989A;
+    text-shadow: 1px 0.3px 1px #95989A;
+}
+.log-reg p:hover{
+    background-color: #959595;
+    color:#fff
+}
+
+@media screen and (max-width:1000px){
+    .home-main-container img{
+        width: 180px;
+        height: 180px;
+    }
+}

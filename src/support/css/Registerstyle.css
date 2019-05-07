@@ -1,0 +1,146 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box
+}
+
+.main{
+    font-size: 14px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+
+#bungkus{
+    position: absolute;
+    top: 43vh;
+    width: 90%;
+    height: 100px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: scale(0.56)
+}
+
+.tempat-form{
+    width: 100%;
+    max-width: 40rem;
+    background-color: #fff;
+    position: relative;
+    padding: 10rem 0;
+    z-index : 1;
+    border: 1px solid #95989A;
+}
+
+
+
+.form-title{
+    color: #000;
+    font-size: 2.5rem;
+    position: absolute;
+    top: 3.5rem;
+    left: 10rem;
+    font-weight: 700;
+}
+
+form{
+    transform: translateX(10rem);
+    background-color: #fff;
+    padding: 2rem 0;
+    border: 1px solid #95989A;
+}
+
+.inputan{
+    width: 90%;
+    margin: 0 auto;
+    position: relative;
+    display: flex;
+    align-items: baseline;
+}
+
+.inputan input{
+    position: relative;
+    width: 80%;
+    padding: 1rem 0;
+    margin-top: .5rem;
+    border: none;
+    outline: none;
+    font-size: 1.8rem;
+    color: #000;
+}
+
+.inputan > i{
+    font-size: 2rem;
+    margin-right: 1rem;
+    color: #000;
+}
+
+.inputan .bar{
+    position: absolute;
+    left: 0;
+    bottom: 0; 
+    background-color: rgba(0,0,0,.1);
+    width: 100%;
+    height: 1px;
+}
+
+.inputan .bar::before{
+    content: '';
+    position: absolute;
+    background-color: #000;
+    width: 0;
+    height: 2px;
+    transition: width 650ms;
+}
+
+.inputan input:focus + .bar::before{
+    width: 100%
+}
+
+.inputan button{
+    margin: 3rem auto;
+    padding: 1rem 5rem;
+    background: #000;
+    border: none;
+    color: #fff;
+    font-size: 2.5rem;
+    cursor: pointer;
+    border-radius: 3rem;
+}
+
+.inputan button:focus,
+.inputan button:hover{
+    background : #95989A;
+}
+
+.switch-login{
+    text-align: center;
+}
+
+.switch-login p{
+    color: #a1a1a1;
+    font-size: 1.5rem;
+}
+
+.switch-login span{
+    color: #000;
+}
+
+.switch-login span:hover{
+    color: #95989A;
+    padding-bottom: 2px;
+    border-bottom: 2px solid #95989A;
+}
+
+
+@media screen and (max-width: 700px){
+    .form-title{
+        left: 50%;
+        transform: translateX(-50%)
+    }
+
+    form{
+        border : none;
+        transform: initial;
+    }
+}

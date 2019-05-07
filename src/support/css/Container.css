@@ -1,0 +1,48 @@
+.top{
+    display: grid;
+    grid-template-columns: 1fr 6fr 1fr;
+    border-bottom: 1px solid #95989A;
+    height: 10vh;
+}
+.top-1{
+    text-align: center;
+    border-right: 1px solid #95989A;
+}
+.top-1 i{
+    color:#95989A;
+    line-height: 60px;
+}
+.top-2{
+    line-height: 60px;
+    font-size: 25px;
+    font-family: 'Staatliches', cursive;
+    text-align: center;
+    color:#95989A
+}
+.top-3{
+    border-left: 1px solid #95989A;
+}
+.mid{
+    height: 80vh;
+    display: grid;
+    grid-template-columns: 1fr 6fr 1fr;
+}
+.mid-1{
+    border-right: 1px solid #95989A;
+}
+.mid-3{
+    border-left: 1px solid #95989A;
+}
+
+.bottom{
+    display: grid;
+    grid-template-columns: 1fr 6fr 1fr;
+    border-top: 1px solid #95989A;
+    height: 10vh;
+}
+.bottom-1{
+    border-right: 1px solid #95989A;
+}
+.bottom-3{
+    border-left: 1px solid #95989A;
+}
