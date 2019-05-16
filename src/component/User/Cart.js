@@ -1,5 +1,5 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
+import {Link,Redirect} from 'react-router-dom'
 import axios from 'axios'
 import cookie from 'universal-cookie'
 import {connect} from 'react-redux'
@@ -106,6 +106,9 @@ class Cart extends React.Component{
     }
 
     render(){
+        if(this.props.username === ''){
+            return   <Redirect to="/login"/>        
+        }
         if(this.state.cart.length === 0){
             return(
                 <div>
@@ -141,7 +144,7 @@ class Cart extends React.Component{
                     </div>
                     <div className="mid">
                         <div className="mid-1"></div>
-                        <div className="mid-2 text-center" style={{fontFamily:' Arial, Helvetica, sans-serif'}}>
+                        <div className="mid-2 text-center" style={{fontFamily:' Arial, Helvetica, sans-serif',overflowY:'auto'}}>
                         <div className="container" style={{fontFamily:' Arial, Helvetica, sans-serif',fontSize:'15px'}}>
                                 <table className="mt-5 mb-5 table">
                                 <tr>

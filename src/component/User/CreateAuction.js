@@ -1,7 +1,7 @@
 import React from 'react'
 import axios from 'axios'
 import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
+import {Link,Redirect} from 'react-router-dom'
 
 import '../../support/css/Container.css'
 
@@ -86,6 +86,9 @@ class CreateAuction extends React.Component{
 
 
     render(){
+      if(this.props.username === ''){
+        return <Redirect to="/login"/>
+      }
         return <div>
               <div className="top">
                   <div className="top-1"><Link to="/" style={{color:'#000'}}><i class="fas fa-arrow-left"></i></Link></div>

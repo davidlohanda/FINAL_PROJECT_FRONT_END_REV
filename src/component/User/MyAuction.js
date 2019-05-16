@@ -1,14 +1,14 @@
 import React from 'react'
 import axios from 'axios'
 import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
+import {Link,Redirect} from 'react-router-dom'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 import'../../support/css/Container.css'
 
 
 class MyAuction extends React.Component{
-    state={myAuction : [] , dataEdit : {} , selectedFileImageEdit : null , modal : false}
+    state={myAuction : [] , dataEdit : {} , selectedFileImageEdit : null , modal : false, page : 0, slice : 5, navpage : 1}
     componentDidMount(){
         this.getMyAuction()
     }
@@ -24,7 +24,8 @@ class MyAuction extends React.Component{
     }
 
     renderJsx = () => {
-        var jsx = this.state.myAuction.map((val,i) => {
+        var pagination = this.state.myAuction.slice(this.state.page, this.state.slice)
+        var jsx = pagination.map((val,i) => {
             return (
                 <tr>
                     <td>{i+1}</td>
@@ -92,7 +93,23 @@ class MyAuction extends React.Component{
         .catch((err) => console.log(err))
     }
 
+    prevButton = () => {
+        if(this.state.page !== 0 && this.state.slice !== 5){
+            this.setState({page : this.state.page - 5, slice : this.state.slice - 6, navpage : this.state.navpage - 1})
+        }
+    }
+
+    nextButton = () => {
+        if(this.state.slice < this.state.myAuction.length){
+            this.setState({page : this.state.page + 5, slice : this.state.slice + 6, navpage : this.state.navpage + 1})
+        }
+    }
+
+
     render(){
+        if(this.props.username === ''){
+            return <Redirect to="/login"/>
+        }
         if(this.state.myAuction.length === 0){
             return <div>
                          <div className="top">
@@ -147,7 +164,9 @@ class MyAuction extends React.Component{
                         </div>
                         <div className="bottom">
                             <div className="bottom-1"></div>
-                            <div className="bottom-2"></div>
+                            <div className="bottom-2 text-center">
+                                {this.state.navpage===1?null:<span onClick={this.prevButton} style={{fontSize:'20px'}}>&laquo;</span>} <span style={{margin : '0 5px'}}>{this.state.navpage}/{Math.ceil(this.state.myAuction.length/5)}</span> {this.state.navpage === Math.ceil(this.state.myAuction.length/5)?null:<span onClick={this.nextButton} style={{fontSize:'20px'}}>&raquo;</span>}
+                            </div>
                             <div className="bottom-3"></div>
                         </div>
                     </div>

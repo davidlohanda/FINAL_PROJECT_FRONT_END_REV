@@ -29,7 +29,7 @@ class Header1 extends React.Component{
                 <div className="container">
                     <div className="header fixed-top">
                         <Link to="/"><img className="logo" src={Logo} alt="logo"/></Link>
-                        <i class="fas fa-shopping-cart"></i><span>{this.props.cart}</span>
+                        <Link to="/cart" className="cart"><i class="fas fa-shopping-cart"></i></Link><span>{this.props.cart}</span>
                         <input type="checkbox" id="chk"/>
                         <label for="chk" class="show-menu-btn">
                             <i className="fas fa-bars"></i>

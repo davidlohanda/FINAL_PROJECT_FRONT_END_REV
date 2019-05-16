@@ -10,13 +10,14 @@ import {withRouter} from 'react-router-dom'
 import '../support/css/Shopstyle.css'
 
 class Shop extends React.Component{
-    state = {sellAuction : [] , timer : [] , winner : [], modal : false, selected:0, duration:0, search:'',searchData:''}
+    state = {sellAuction : [] , timer : [] , winner : [], modal : false, selected:0, duration:0, search:''}
 
     componentDidMount(){
         this.getAllAuction()
         this.getWinner()
         this.getDataUrl()
     }
+
 
     getWinner = () => {
         axios.get(`http://localhost:2000/bidder/winner`)
@@ -145,30 +146,40 @@ class Shop extends React.Component{
     }
 
     pushUrl = () => {
-        var newLink = `/search`
+        var newLink = `/allcategories`
         var params = []
         if(this.refs.inputSearch.value){
-          params.push({
-            params : 'product',
-            value : this.refs.inputSearch.value
-          })
-          newLink += '?' + params[0].params + '=' + params[0].value
-          console.log(newLink)
-          this.props.history.push(newLink)
+            params.push({
+                params : 'product',
+                value : this.refs.inputSearch.value
+            })
+            newLink += '?' + params[0].params + '=' + params[0].value
+            console.log(newLink)
+            this.props.history.push(newLink)
+        }else if(this.refs.inputSearch.value === ''){
+            newLink = '/allcategories'
+            this.props.history.push(newLink)
         }
+        
     }
 
     getDataUrl = () => {
-
+    
     if(this.props.location.search){
         var obj = QueryString.parse(this.props.location.search)
         if(obj.product){
-        this.setState({searchData : obj.product})
+            this.setState({search : obj.product})
         }
         
     } 
     
     }
+
+    onChangeHandler = () => {
+        this.setState({search : this.refs.inputSearch.value})
+        this.pushUrl()
+    }
+
 
 
     render(){
@@ -181,7 +192,7 @@ class Shop extends React.Component{
         }else{
             return(
                 <div  className="mb-5 container-fluid" style={{overflow:'hidden'}}>
-                    <span className="text-center mt-5" style={{display:'block'}}><i className="fas fa-search mr-2"></i><input ref="inputSearch" onChange={()=>this.setState({search : this.refs.inputSearch.value})}  style={{width:'40vw',height:'7vh',padding:'10px',outline:'none'}} type="text" placeholder="Search"></input></span>
+                    <span className="text-center mt-5" style={{display:'block'}}><i className="fas fa-search mr-2"></i><input value={this.state.search}   ref="inputSearch" onChange={this.onChangeHandler}  style={{width:'40vw',height:'7vh',padding:'10px',outline:'none'}} type="text" placeholder="Search"></input></span>
                     <div className="mt-5 row justify-content-center">
                         {this.renderSellAuction()}
 

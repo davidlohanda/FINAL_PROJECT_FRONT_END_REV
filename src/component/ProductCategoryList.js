@@ -4,6 +4,9 @@ import CountDown from 'react-countdown-now'
 import {connect} from 'react-redux'
 import {cartCount} from '../1.actions'
 import {Modal, ModalHeader, ModalBody} from 'reactstrap';
+import {Redirect} from 'react-router-dom'
+import QueryString from 'query-string'
+import {withRouter} from 'react-router-dom'
 
 import Header1 from './Header1';
 import Footer from './Footer'
@@ -14,6 +17,7 @@ class ProductCategoryList extends React.Component{
     componentDidMount(){
         this.getAuctionByCategory()
         this.getWinner()
+        this.getDataUrl()
     }
 
     getWinner = () => {
@@ -142,7 +146,44 @@ class ProductCategoryList extends React.Component{
         }
     }
 
+    pushUrl = () => {
+        var newLink = `/productcategory/${this.props.match.params.category}`
+        var params = []
+        if(this.refs.inputSearch.value){
+            params.push({
+                params : 'product',
+                value : this.refs.inputSearch.value
+            })
+            newLink += '?' + params[0].params + '=' + params[0].value
+            console.log(newLink)
+            this.props.history.push(newLink)
+        }else if(this.refs.inputSearch.value === ''){
+            newLink = `/productcategory/${this.props.match.params.category}`
+            this.props.history.push(newLink)
+        }
+        
+    }
+
+    getDataUrl = () => {
+    
+    if(this.props.location.search){
+        var obj = QueryString.parse(this.props.location.search)
+        if(obj.product){
+            this.setState({search : obj.product})
+        }
+        
+    }}
+
+    onChangeHandler = () => {
+        this.setState({search : this.refs.inputSearch.value})
+        this.pushUrl()
+    }
+    
+
     render(){
+        if(this.props.username === ''){
+            return <Redirect to="/login"/>
+        }
         if(this.state.sellAuction.length === 0){
             return(
                 <div>
@@ -159,7 +200,7 @@ class ProductCategoryList extends React.Component{
                 <div>
                     <Header1/>
                     <hr style={{marginTop:'120px', border:'none'}}></hr>
-                    <span className="text-center mt-5" style={{display:'block'}}><i className="fas fa-search mr-2"></i><input ref="inputSearch" onChange={()=>this.setState({search : this.refs.inputSearch.value})}  style={{width:'40vw',height:'7vh',padding:'10px',outline:'none'}} type="text" placeholder="Search"></input></span>
+                    <span className="text-center mt-5" style={{display:'block'}}><i className="fas fa-search mr-2"></i><input ref="inputSearch" value={this.state.search} onChange={this.onChangeHandler}  style={{width:'40vw',height:'7vh',padding:'10px',outline:'none'}} type="text" placeholder="Search"></input></span>
                     <div className="mt-5 row justify-content-center">
                         {this.renderSellAuction()}
                             {/* =============MODAL================= */}
@@ -208,4 +249,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps,{cartCount})(ProductCategoryList)
+export default withRouter(connect(mapStateToProps,{cartCount})(ProductCategoryList))

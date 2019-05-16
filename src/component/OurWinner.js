@@ -1,6 +1,7 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
+import {Link,Redirect} from 'react-router-dom'
 import axios from 'axios'
+import {connect} from 'react-redux'
 
 import '../support/css/Container.css'
 
@@ -12,7 +13,7 @@ class OurWinners extends React.Component{
     }
 
     getAllWinners = () => {
-        axios.get('http://localhost:2000/bidder/ourwinner')
+        axios.get('http://localhost:2000/bidder/allwinners')
         .then((res) => {
             this.setState({winners : res.data})
         })
@@ -25,8 +26,8 @@ class OurWinners extends React.Component{
                 <tr>
                     <td>{i+1}</td>
                     <td>{val.username}</td>
-                    <td>{val.product_name} </td>
-                    <td>Rp.{val.bid_price} </td>
+                    <td>{val.product} </td>
+                    <td>Rp.{val.price} </td>
                 </tr>
             )
         })
@@ -34,6 +35,9 @@ class OurWinners extends React.Component{
     }
 
     render(){
+        if(this.props.username === ''){
+            return <Redirect to="/login"/>
+        }
         if(this.state.winners.length === 0){
             return(
                 <div>
@@ -96,4 +100,10 @@ class OurWinners extends React.Component{
     }
 }
 
-export default OurWinners
+const mapStateToProps = (state) => {
+    return {
+        username : state.user.username 
+    }
+}
+
+export default connect(mapStateToProps)(OurWinners)

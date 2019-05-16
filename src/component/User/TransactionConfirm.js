@@ -2,12 +2,13 @@ import React from 'react'
 import {connect} from 'react-redux'
 import axios from 'axios'
 import cookie from 'universal-cookie'
+import {Redirect} from 'react-router-dom'
 
 
 const Cookie = new cookie()
 
 class TransactionConfirm extends React.Component{
-    state={imageFile : null, history:[]}
+    state={imageFile : null, history:[], code: null, detail : []}
 
 
     componentDidMount(){
@@ -27,8 +28,42 @@ class TransactionConfirm extends React.Component{
         .catch((err)=>console.log(err))
     }
 
+
+
     onChangeHandler = (e) => {
         this.setState({imageFile : e.target.files[0]})
+    }
+
+    dropdown = () => {
+        this.setState({code : this.refs.noinvoice.value})
+        if(this.refs.noinvoice.value === 'Invoice Number'){
+            this.setState({detail : []})
+        }else{
+            axios.get(`http://localhost:2000/bidder/invoicecode?code=${this.refs.noinvoice.value}`)
+            .then((res) => {
+                this.setState({detail : res.data})
+            })
+            .catch((err) => console.log(err))
+        }
+    }
+
+    totalPrice = () => {
+        var total = 0
+        for(let i = 0 ; i < this.state.detail.length ; i++){
+            total += this.state.detail[i].price
+        }
+        return <td colSpan="3">Total : Rp.{total}</td>
+    }
+    renderDetail = () => {
+        var jsx = this.state.detail.map((val) => {
+            return(
+                <tr>
+                    <td>{val.product}</td>
+                    <td>Rp.{val.price}</td>
+                </tr>
+            )
+        })
+        return jsx
     }
 
     submitConfirmation = () => {
@@ -44,8 +79,8 @@ class TransactionConfirm extends React.Component{
         axios.post('http://localhost:2000/bidder/submitConfirmation' , fd) 
         .then((res) => {
             alert(res.data)
-            this.setState({imageFile : null})
-            this.props.resetUser()
+            this.setState({imageFile : null , detail : []})
+            this.refs.confirmation.value = null
         })  
         .catch((err) =>  console.log(err))     
     }
@@ -63,20 +98,45 @@ class TransactionConfirm extends React.Component{
     }
 
     render(){
+        if(this.props.username === ''){
+            return   <Redirect to="/login"/>        
+        }
         return(
-            <div className="container jumbotron mt-5">
+            <div className="container jumbotron">
                 <p>Hi, {this.props.username}</p>
                 <label for="noinvoice">
                 Transacation to confirm :
                 </label>
                 <p>
-                    <select id="noinvoice" ref="noinvoice">
+                    <select id="noinvoice" ref="noinvoice" onChange={this.dropdown}>
                         <option>Invoice Number</option>
                         {this.renderNoInvoice()}
                     </select>
                 </p>
                 <p>Please submit your proof of payment :</p>
                 <p><input ref="confirmation" type="file" onChange={this.onChangeHandler}/></p>
+            {this.state.detail.length > 0?
+                <table className="table table-light table-active mt-5">
+                    <thead>
+                        <td colSpan="3">Transaction Detail</td>
+                    </thead>
+                    <thead>
+                        <td colSpan="3">Checkout date : {this.state.detail[0].date}</td>
+                    </thead>
+                    <thead>
+                        {this.totalPrice()}
+                    </thead>
+                    <thead>
+                        <td>Product</td>
+                        <td>Price</td>
+                    </thead>
+                    <tbody>
+                        {this.renderDetail()}
+                    </tbody>
+                    <tfoot>
+                        
+                    </tfoot>
+                </table> : null}
                 <p><input onClick={this.submitConfirmation} className="btn btn-control btn-primary mt-3" type="button" value="Submit"/></p>
             </div>
         )

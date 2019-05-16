@@ -6,7 +6,7 @@ import '../../support/css/Container.css'
 
 
 class ManageProduct extends React.Component{
-    state={auction : []}
+    state={auction : [] , page : 0, slice : 5, navpage : 1}
 
     componentDidMount(){
         this.getAllAuction()
@@ -21,7 +21,8 @@ class ManageProduct extends React.Component{
     }
 
     renderJsx = () => {
-        var jsx = this.state.auction.map((val,i) => {
+        var pagination = this.state.auction.slice(this.state.page, this.state.slice)
+        var jsx = pagination.map((val,i) => {
             return(
                 <tr>
                     <td>{i+1}</td>
@@ -47,6 +48,18 @@ class ManageProduct extends React.Component{
             this.getAllAuction()
         })
         .catch((err) => console.log(err))
+    }
+
+    prevButton = () => {
+        if(this.state.page !== 0 && this.state.slice !== 5){
+            this.setState({page : this.state.page - 5, slice : this.state.slice - 6, navpage : this.state.navpage - 1})
+        }
+    }
+
+    nextButton = () => {
+        if(this.state.slice < this.state.auction.length){
+            this.setState({page : this.state.page + 5, slice : this.state.slice + 6, navpage : this.state.navpage + 1})
+        }
     }
 
     render(){
@@ -105,7 +118,9 @@ class ManageProduct extends React.Component{
                     </div>
                     <div className="bottom">
                         <div className="bottom-1"></div>
-                        <div className="bottom-2"></div>
+                        <div className="bottom-2 text-center" style={{fontSize:'15px', fontFamily:'Arial,helvetica,sans-serif'}}>
+                            {this.state.navpage===1?null:<span onClick={this.prevButton} style={{fontSize:'20px'}}>&laquo;</span>} <span style={{margin : '0 5px'}}>{this.state.navpage}/{Math.ceil(this.state.auction.length/5)}</span> {this.state.navpage === Math.ceil(this.state.auction.length/5)?null:<span onClick={this.nextButton} style={{fontSize:'20px'}}>&raquo;</span>}
+                        </div>
                         <div className="bottom-3"></div> 
                     </div>
                 </div>

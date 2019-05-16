@@ -1,5 +1,5 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
+import {Link,Redirect} from 'react-router-dom'
 import axios from 'axios'
 import {connect} from 'react-redux'
 import cookie from 'universal-cookie'
@@ -52,8 +52,36 @@ class HistoryTransaction extends React.Component{
         })
         return jsx
     }
+
+    btnSearchClick = () => {
+        var x = this.refs.date.value.split('-').reverse().join('/')
+        alert(x)
+        axios.get(`http://localhost:2000/login/getUserByUsername?username=${Cookie.get('userData')}`)
+        .then((res1)=>{
+            if(x){
+                console.log(res1.data)
+                axios.get(`http://localhost:2000/bidder/history?id=${res1.data[0].id}&date=${x}`)
+                .then((res) => {
+                    console.log(res.data)
+                    this.setState({history : res.data})
+                })
+                .catch((err) => console.log(err))
+            }else{
+                axios.get(`http://localhost:2000/bidder/history/${res1.data[0].id}`)
+                .then((res) => {
+                    console.log(res.data)
+                    this.setState({history : res.data})
+                })
+                .catch((err) => console.log(err))
+            }
+        })
+        .catch((err)=>console.log(err))
+    }
     
     render(){
+        if(this.props.username === ''){
+            return <Redirect to="/login"/>
+        }
         if(this.state.history.length === 0){
             return(
                 <div>
@@ -65,7 +93,8 @@ class HistoryTransaction extends React.Component{
                 <div className="mid">
                     <div className="mid-1"></div>
                     <div className="mid-2" style={{fontFamily:' Arial, Helvetica, sans-serif'}}>
-                        <p style={{textAlign:'center', marginTop:'40vh', textDecoration:'underline',color:'#95989A'}}>No history transaction yet</p>
+                        <span className="text-center mt-5" style={{display:'block',fontFamily:'Arial,helvetica,sans-serif',fontSize:'15px'}}><i className="fas fa-search mr-2"></i><input  ref="date" type="date"  style={{width:'30vw',height:'5vh',padding:'10px',outline:'none',border:'1px solid #95989A'}}></input><button onClick={this.btnSearchClick} style={{height:'5vh',width:'6vw'}}>search</button></span>
+                        <p style={{textAlign:'center', marginTop:'20vh', textDecoration:'underline',color:'#95989A'}}>No history transaction</p>
                     </div>
                     <div className="mid-3"></div>
                 </div>
@@ -86,7 +115,8 @@ class HistoryTransaction extends React.Component{
                         </div>
                         <div className="mid">
                             <div className="mid-1"></div>
-                            <div className="mid-2 text-center">
+                            <div className="mid-2 text-center" style={{overflowY:'auto'}}>
+                                <span className="text-center mt-5" style={{display:'block',fontFamily:'Arial,helvetica,sans-serif',fontSize:'15px'}}><i className="fas fa-search mr-2"></i><input  ref="date" type="date"  style={{width:'30vw',height:'5vh',padding:'10px',outline:'none',border:'1px solid #95989A'}}></input><button onClick={this.btnSearchClick} style={{height:'5vh',width:'6vw'}}>search</button></span>
                                 <div className="container" style={{fontFamily:' Arial, Helvetica, sans-serif',fontSize:'15px'}}>
                                 <table className="mt-5 mb-5 table">
                                 <tr>

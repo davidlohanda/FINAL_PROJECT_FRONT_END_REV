@@ -85,7 +85,7 @@ class ManageCategory extends React.Component{
             </div>
             <div className="mid">
                 <div className="mid-1"></div>
-                <div className="mid-2" style={{fontFamily:' Arial, Helvetica, sans-serif'}}>
+                <div className="mid-2" style={{fontFamily:' Arial, Helvetica, sans-serif', overflowY : 'auto'}}>
                     <div className="container" style={{fontFamily:' Arial, Helvetica, sans-serif',fontSize:'15px'}}>
                         <table className="mt-5 mb-5 table">
                             <tr>
