@@ -97,8 +97,10 @@ class Cart extends React.Component{
             total : this.totalPrice()
         }
         console.log(data)
+        //post data ke table_checkout
         axios.post(`http://localhost:2000/bidder/checkout?username=${Cookie.get('userData')}` , data)
         .then((res) => {
+            //res.data berisi string untuk menuruh cek email untuk melanjutkan pembayaran
             alert(res.data)
             this.getDataCart()
         })

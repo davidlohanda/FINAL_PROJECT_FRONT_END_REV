@@ -14,6 +14,7 @@ import Home from './Home'
 
 
 
+
 class MainAuction extends React.Component{
     render(){
         if(this.props.username === ''){
@@ -21,7 +22,7 @@ class MainAuction extends React.Component{
         }
         return(
             <div>
-                <Header1 username ={this.props.username}/>
+                <Header1 username ={this.props.username}/> 
                 <Bigetron/>
                 <Separator/>
                 <HeaderCategory/>
@@ -40,7 +41,6 @@ class MainAuction extends React.Component{
 const mapStateToProps=(state)=>{
     return{
         username:state.user.username,
-        cart : state.cart.count
     }
 }
 

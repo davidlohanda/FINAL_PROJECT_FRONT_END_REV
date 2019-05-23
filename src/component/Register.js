@@ -1,20 +1,17 @@
 import React from 'react'
-import {Link,Redirect} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import Loader from 'react-loader-spinner'
 import {connect} from 'react-redux'
 import {onRegister} from '../1.actions'
-import Cookie from 'universal-cookie'
+
 
 import '../support/css/Registerstyle.css'
 
-const cookie = new Cookie()
+
 
 class Register extends React.Component{
     state={error:'', success:''}
 
-    componentWillReceiveProps(newProps){
-        cookie.set('userData',newProps.username,{path:'/'})
-    }
 
     btnRegisterClick=()=>{
         var username=this.refs.username.value
@@ -27,7 +24,7 @@ class Register extends React.Component{
             this.setState({error:`Password didn't macth`})
         }else{
             this.props.onRegister(username,email,password)
-            this.setState({success:'Thankyou for register, check your email to verify your accout'})
+            // this.setState({success:'Thankyou for register, check your email to verify your accout'})
         }
 
         this.refs.username.value=''
@@ -58,17 +55,14 @@ class Register extends React.Component{
             return <div className="alert alert-danger mt-3" role="alert" style={{fontSize:'22px', textAlign:'center'}}>
                         {this.state.error}
                     </div>
-        }else if(this.state.success!==''){
+        }else if(this.props.success){
             return <div className="alert alert-success mt-3" role="alert" style={{fontSize:'22px', textAlign:'center'}}>
-                        {this.state.success}
+                        Thankyou for register, check your email to verify your accout
                     </div>
         }
     }
 
     render(){
-        if(this.props.username){
-            return <Redirect to="/"/>
-        }
         return(
             <div className="main animated fadeIn">
                 <div id="bungkus">
@@ -114,9 +108,8 @@ class Register extends React.Component{
 
 const mapStateToProps=(state)=>{
     return{
-        username:state.user.username,
         loading:state.user.loading,
-        error:state.user.error,
+        error:state.user.errorRegister,
         success : state.user.success
     }
 }

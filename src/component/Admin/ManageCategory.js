@@ -48,6 +48,7 @@ class ManageCategory extends React.Component{
         .then((res) => {
             alert(res.data)
             this.getMyCategory()
+            this.refs.addCategory.value = ''
         })
         .catch((err) => console.log(err))
     }

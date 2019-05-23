@@ -6,20 +6,25 @@ import {Redirect,Link} from 'react-router-dom'
 
 import '../support/css/Header1style.css'
 import Logo from '../img/Logo.png'
-
+  
 const cookie = new Cookie()
 
 class Header1 extends React.Component{
+    //Ketika pertama kali mounting action creator cartCount dipanggil untuk menghitung jumlah item dalam cart, sehingga jika sebelumnya user
+    // pernah memasukan item ke cart namun belum dicheckout sehingga data masih tersimpan ketika login kembali
     componentDidMount(){
         this.props.cartCount(this.props.username)
     }
 
     btnSignOut=()=>{
+        //Ketika sign out maka cookie yang sebelumnya diset saat login akan di hapus
         cookie.remove('userData')
+        //Kemudian action creator resetUser dipanggil untuk mereset global state ke INITIAL_STATEnya sehingga bisa redirect ke komponen Home
         this.props.resetUser()
+        //Juga dilakukan resetCount agar saat user lain yang login maka cart dari user sebelumnya tidak masuk ke cart user tersebut 
         this.props.resetCount()
     }
-
+              
     render(){
         if(this.props.username === ""){
             return <Redirect to="/"/>

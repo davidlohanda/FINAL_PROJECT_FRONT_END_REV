@@ -11,6 +11,11 @@ import '../support/css/Loginstyle.css'
 const cookie = new Cookie()
 
 class Login extends React.Component{
+    //Saat login akan dipanggil action creator onLogin yang akan memicu perubahan global state sehingga pada saat itu
+    //digunakan componentWillReceiveProps untuk mengenerate cookie berisi username dari user yang login yang nanti digunakan untuk
+    //melakukan keep login saat direload dengan action creator keepLogin
+    //path : '/' digunakan agar cookie bisa diakses di semua route
+
     componentWillReceiveProps(newProps){
         cookie.set('userData',newProps.username,{path:'/'})
     }
@@ -18,9 +23,12 @@ class Login extends React.Component{
     
 
     btnLoginClick=()=>{
+        //get semua input dari user
         var username = this.refs.username.value
         var password = this.refs.password.value
+        //panggil action creator onLogin agar bisa login / mencatat global state sehingga bisa redirect
         this.props.onLogin(username,password)
+        //jika user sebelumnya pernah add to cart namun belum checkout maka setiap login cart akan tetap terisi dengan actio creator cartCount
         this.props.cartCount(username)
         this.refs.username.value=''
         this.refs.password.value=''
@@ -87,7 +95,7 @@ const mapStateToProps=(state)=>{
     return{
         username : state.user.username,
         loading : state.user.loading,
-        error : state.user.error
+        error : state.user.errorLogin
     }
 }
 

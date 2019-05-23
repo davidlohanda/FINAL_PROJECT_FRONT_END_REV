@@ -10,7 +10,7 @@ class AllCategories extends React.Component{
     
     render(){
         if(this.props.username === ''){
-            return <Redirect to="/login"/> 
+            return <Redirect to="/login"/> //proteksi agar saat user belum login dan mengetik path localhost:3000/allcategories maka akan redirect ke komponen login 
         }
         return(
             <div>

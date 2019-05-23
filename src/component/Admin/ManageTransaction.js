@@ -5,7 +5,7 @@ import axios from 'axios'
 import '../../support/css/Container.css'
 
 class ManageTransaction extends React.Component{
-    state={trasactions:[] , dataEdit : 0, selectedEdit : null, page : 0, slice : 5, navpage : 1}
+    state={trasactions:[] , selectedEdit : null, page : 0, slice : 5, navpage : 1, order : 1}
     
     componentDidMount(){
         this.getTransactions()
@@ -33,8 +33,7 @@ class ManageTransaction extends React.Component{
     }
 
     renderJsx = () => {
-        var pagination = this.state.trasactions.slice(this.state.page, this.state.slice)
-        var jsx = pagination.map((val,i) => {
+        var jsx = this.state.trasactions.map((val,i) => {
             if(this.state.selectedEdit === val.id){
                 return <tr>
                             <td>{i+1}</td>
@@ -57,24 +56,24 @@ class ManageTransaction extends React.Component{
                         <td>{val.date}</td>
                         <td>Rp.{val.price}</td>
                         <td>{val.status}</td>
-                        <td> <input type = 'button' className='btn btn-info'  value='edit' onClick={()=>{this.setState({selectedEdit : val.id , dataEdit : val})}} style={{fontSize:'15px', marginTop:'-2px'}}/> </td>        
+                        <td> <input type = 'button' className='btn btn-info'  value='edit' onClick={()=>{this.setState({selectedEdit : val.id})}} style={{fontSize:'15px', marginTop:'-2px'}}/> </td>        
                         <td></td>
                   </tr>
                 )
             }
         })
-        return jsx
+        return jsx.slice(this.state.page, this.state.slice)
     }
 
     prevButton = () => {
         if(this.state.page !== 0 && this.state.slice !== 5){
-            this.setState({page : this.state.page - 5, slice : this.state.slice - 6, navpage : this.state.navpage - 1})
+            this.setState({page : this.state.page - 5, slice : this.state.slice - 5, navpage : this.state.navpage - 1})
         }
     }
 
     nextButton = () => {
         if(this.state.slice < this.state.trasactions.length){
-            this.setState({page : this.state.page + 5, slice : this.state.slice + 6, navpage : this.state.navpage + 1})
+            this.setState({page : this.state.page + 5, slice : this.state.slice + 5, navpage : this.state.navpage + 1})
         }
     }
     
@@ -110,7 +109,7 @@ class ManageTransaction extends React.Component{
             <div className="bottom">
                 <div className="bottom-1"></div>
                 <div className="bottom-2 text-center">
-                    {this.state.navpage===1?null:<span onClick={this.prevButton} style={{fontSize:'20px'}}>&laquo;</span>} <span style={{margin : '0 5px'}}>{this.state.navpage}/{Math.ceil(this.state.trasactions.length/5)}</span> {this.state.navpage === Math.ceil(this.state.trasactions.length/5)?null:<span onClick={this.nextButton} style={{fontSize:'20px'}}>&raquo;</span>}
+                    {this.state.navpage===1?null:<span onClick={this.prevButton} style={{fontSize:'20px', cursor:'pointer'}}>&laquo;</span>} <span style={{margin : '0 5px'}}>{this.state.navpage}/{Math.ceil(this.state.trasactions.length/5)}</span> {this.state.navpage === Math.ceil(this.state.trasactions.length/5)?null:<span onClick={this.nextButton} style={{fontSize:'20px', cursor:'pointer'}}>&raquo;</span>}
                 </div>
                 <div className="bottom-3"></div> 
             </div>

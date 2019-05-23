@@ -1,4 +1,4 @@
-const INITIAL_STATE = {id: 0 ,username : '', password : '', error : '', loading : false, success : '', cookie : false}
+const INITIAL_STATE = {id: 0 ,username : '', password : '', errorLogin : '', errorRegister : '', loading : false, success : '', cookie : false}
 
 export default (state=INITIAL_STATE, action)=>{
     if(action.type==='LOADING'){
@@ -6,15 +6,17 @@ export default (state=INITIAL_STATE, action)=>{
     }else if(action.type==='LOGIN_SUCCESS'){
         return {...INITIAL_STATE, username : action.payload.username , role:action.payload.role , cookie : true}
     }else if(action.type==='USER_NOT_FOUND'){
-        return {...INITIAL_STATE, error:'Incorrect username or password', cookie : true}
+        return {...INITIAL_STATE, errorLogin:'Incorrect username or password', cookie : true}
     }else if(action.type==='USER_NOT_VERIFIED'){
-        return {...INITIAL_STATE, error : 'Please verify your account first, check your email' , cookie : true}
-    }else if(action.type==='SYSTEM_ERROR'){
-        return {...INITIAL_STATE, error:'System error, please try again later', cookie : true}
+        return {...INITIAL_STATE, errorLogin : 'Please verify your account first, check your email' , cookie : true}
+    }else if(action.type==='SYSTEM_ERROR_LOGIN'){
+        return {...INITIAL_STATE, errorLogin:'System error, please try again later', cookie : true}
+    }else if(action.type ==='SYSTEM_ERROR_REGISTER'){
+        return {...INITIAL_STATE, errorRegister:'System error, please try again later', cookie : true}
     }else if(action.type==='RESET_USER'){
         return {...INITIAL_STATE, cookie: true}
     }else if(action.type==='USERNAME_NOT_AVAILABLE'){
-        return {...INITIAL_STATE, cookie : true, error:'Username already exist'}
+        return {...INITIAL_STATE, cookie : true, errorRegister:'Username already exist'}
     }else if(action.type==='REGISTER_SUCCESS'){
         return {...INITIAL_STATE, success : action.payload, cookie : true}
     }else if(action.type==='COOKIE_CHECKED'){

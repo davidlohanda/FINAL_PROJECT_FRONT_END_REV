@@ -6,7 +6,7 @@ import {connect} from 'react-redux'
 import '../support/css/Container.css'
 
 class OurWinners extends React.Component{
-    state={winners:[]}
+    state={winners:[] , page : 0, slice : 5, navpage : 1}
 
     componentDidMount(){
         this.getAllWinners()
@@ -31,8 +31,21 @@ class OurWinners extends React.Component{
                 </tr>
             )
         })
-        return jsx
+        return jsx.slice(this.state.page, this.state.slice)
     }
+
+    prevButton = () => {
+        if(this.state.page !== 0 && this.state.slice !== 5){
+            this.setState({page : this.state.page - 5, slice : this.state.slice - 5, navpage : this.state.navpage - 1})
+        }
+    }
+
+    nextButton = () => {
+        if(this.state.slice < this.state.winners.length){
+            this.setState({page : this.state.page + 5, slice : this.state.slice + 5, navpage : this.state.navpage + 1})
+        }
+    }
+
 
     render(){
         if(this.props.username === ''){
@@ -65,12 +78,12 @@ class OurWinners extends React.Component{
                 <div>
                         <div className="top">
                             <div className="top-1"><Link to="/" style={{color:'#000'}}><i class="fas fa-arrow-left"></i></Link></div>
-                            <div className="top-2">My Auction</div>
+                            <div className="top-2">Our Winners</div>
                             <div className="top-3"></div>
                         </div>
                         <div className="mid">
                             <div className="mid-1"></div>
-                            <div className="mid-2 text-center">
+                            <div className="mid-2 text-center" style={{overflowY:'auto'}}>
                                 <div className="container" style={{fontFamily:' Arial, Helvetica, sans-serif',fontSize:'15px'}}>
                                 <table className="mt-5 mb-5 table">
                                 <tr>
@@ -90,7 +103,9 @@ class OurWinners extends React.Component{
                         </div>
                         <div className="bottom">
                             <div className="bottom-1"></div>
-                            <div className="bottom-2"></div>
+                            <div className="bottom-2 text-center" style={{fontSize:'15px', fontFamily:'Arial,helvetica,sans-serif'}}>
+                            {this.state.navpage===1?null:<span onClick={this.prevButton} style={{fontSize:'20px', cursor:'pointer'}}>&laquo;</span>} <span style={{margin : '0 5px'}}>{this.state.navpage}/{Math.ceil(this.state.winners.length/5)}</span> {this.state.navpage === Math.ceil(this.state.winners.length/5)?null:<span onClick={this.nextButton} style={{fontSize:'20px', cursor:'pointer'}}>&raquo;</span>}
+                            </div>
                             <div className="bottom-3"></div>
                         </div>
                     </div>

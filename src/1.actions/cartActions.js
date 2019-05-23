@@ -1,6 +1,8 @@
 import axios from "axios";
 
 
+//Cart Count
+////menghitung jumlah item dalam cart dengan menghitung panjang array pada table_cart
 
 export const cartCount = (username) => {
     return (dispatch) => {
@@ -15,6 +17,9 @@ export const cartCount = (username) => {
     }
 }
 
+
+//Reset Count
+// Setelah checkout maka state cart akan kosong kembali
 export const resetCount = () => {
     return{
         type : 'RESET_COUNT'

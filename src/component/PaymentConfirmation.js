@@ -159,6 +159,8 @@ class PaymentConfirmation extends React.Component{
                     </div>
                 )
             }else{
+                //Jika saat ingin confirm payment user sedang tidak login pada aplikasi maka user akan diminta login terlebih dahulu
+                // sehingga sistem bisa menerima data user
                 return(
                     <div className="main animated fadeIn">
                         <div id="bungkus">
@@ -194,7 +196,7 @@ const mapStateToProps = (state) => {
     return{
         username : state.user.username,
         loading : state.user.loading,
-        error : state.user.error
+        error : state.user.errorLogin
     }
 }
 
